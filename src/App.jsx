@@ -39,17 +39,37 @@
 
 // export default CounterApp;
 
-import React, { useEffect, useRef } from "react";
+// import React, { useEffect, useRef } from "react";
+
+// function App() {
+//   const inputRef = useRef(null);
+
+//   return (
+//     <div>
+//       <input ref={inputRef} type="text" placeholder="Type something..." />
+//       <button onClick={()=>{inputRef.current.focus()}}>Focus Input</button>
+//     </div>
+//   );
+// }
+
+// export default App;
+
+import useFetch from "./hooks/useFetch";
 
 function App() {
-  const inputRef = useRef(null);
+  const { data, loading, error } = useFetch(
+    `https://jsonplaceholder.typicode.com/posts`
+  );
 
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
-    <div>
-      <input ref={inputRef} type="text" placeholder="Type something..." />
-      <button onClick={()=>{inputRef.current.focus()}}>Focus Input</button>
-    </div>
+    <ul>
+      {data.map(post => 
+        <li key={post.id}>{post.title}</li>)}
+    
+    </ul>
   );
 }
 
